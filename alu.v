@@ -43,7 +43,7 @@ module ALU(ALUCtrl, A, B, out, out_high, zero, overflow);
                 end
              
              5 : begin                  //MUL
-                product = A * B;
+                product = ($signed(A) * $signed(B));
                 out <= product[31:0];
                 out_high <= product[63:32];
              end
@@ -119,15 +119,20 @@ module ALU(ALUCtrl, A, B, out, out_high, zero, overflow);
                 end    
 
              20 : begin
-                    out <= ($signed(A) > $signed(B));         //SGT
+                  out <= ($signed(A) > $signed(B));         //SGT
                   out_high <= 0;
+                end    
+
+             21 : begin                                     //MULU
+                  product = (A * B);
+                  out <= product[31:0];
+                  out_high <= product[63:32];
                 end    
                     
              default : begin
-                    out <= 0;
-                    out_high <= 0;
+                  out <= 0;
+                  out_high <= 0;
                 end    
-
         endcase
     end
 
