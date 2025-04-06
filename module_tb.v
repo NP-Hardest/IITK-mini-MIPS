@@ -24,18 +24,15 @@ module tb_hahaha;
         $display("R0 = %h", uut.uu1.GPR[2]);
         $display("R0 = %h", uut.uu1.GPR[1]);
         #10
-        instruction = {6'h0, 5'd3, 5'd2, 5'd3, 5'd0, 6'h18};
+        instruction = {6'h2B, 5'd1, 5'd1, 16'd2};
         #30;
-        $display("R0 = %b", uut.uu1.lo);
-        #30;
-        instruction = {6'h1D, 5'd3, 5'd2, 5'd3, 5'd0, 6'h0};
-        #30;
-        
-        $display("R0 = %b", uut.uu1.lo);
-        // $display("R0 = %b", uut.uu1.GPR[3]);
-        // $display("R0 = %b", uut.uu1.GPR[2]);
+
+        $display("R1 = %h", uut.data_memory.mem[3]);
         // $display("R0 = %b", uut.uu1.GPR[1]);
-        // $display("R1 = %h", uut.data_memory.mem[3]);
+        // $display("R0 = %b", uut.uu1.lo);
+        // $display("R0 = %b", uut.uu1.GPR[3]);
+        // $display("R0 = %b", uut.uu1.GPR[1]);
+        // $display("R0 = %b", uut.uu1.GPR[2]);
         // $display("R2 = %d", uut.uu1.GPR[11]);
         // instruction = {6'h23, 5'd2, 5'd14, 16'd10};
         $finish;

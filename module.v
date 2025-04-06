@@ -47,7 +47,6 @@ module hahaha(instruction, clk);
 
     mux uut6(ALU_out, data_memory_out , {1'b0, mem_to_reg}, reg_file_write_in_1);
 
-    // memory instruction_memory(clk, instruction_write_enable, instruction_read_address, instruction_write_address, instruction_data_in, instruction_data_out);
     memory data_memory(clk, mem_write, ALU_out, ALU_out, read_data_2, data_memory_out);
 
 

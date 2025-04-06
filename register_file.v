@@ -32,6 +32,7 @@ module register_file(clk, write_enable, read_address_1, read_address_2, write_ad
     initial begin
         GPR[2] = 32'd3;
         GPR[1] = 32'd1;
+        GPR[0] = 32'd0;             //$zero register
     end
 
     always @ (posedge clk) begin

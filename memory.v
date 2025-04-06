@@ -8,11 +8,11 @@ module memory(clk, write_enable, read_address, write_address, data_in, data_out)
 
     reg [31:0] mem [1023:0];
 
-    // initial begin
-    //     mem[13] = 6; 
-    //     // mem[1] = 5; 
+    initial begin
+        mem[13] = 9; 
+        // mem[1] = 5; 
 
-    // end
+    end
 
     always @(posedge clk) begin
         
