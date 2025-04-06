@@ -32,29 +32,24 @@ module register_file(clk, write_enable, read_address_1, read_address_2, write_ad
     initial begin
         GPR[2] = 32'd3;
         GPR[1] = 32'd1;
-        GPR[0] = 32'd0;
-        GPR[10] = 32'd3;
-        GPR[17] = 32'd3;
-
     end
 
     always @ (posedge clk) begin
-        if(mul) begin
-            if(mul == 1) {hi, lo} <=  {write_data_2, write_data_1};
-            else if(mul == 2) {hi, lo} <= {hi, lo} + {write_data_2, write_data_1};
-        end
-
-        else {hi, lo} <= {hi, lo};
-
         if(write_enable) begin
-            if(mul == 1) {hi, lo} <=  {write_data_2, write_data_1};
+            if(mul == 1) begin
+                {hi, lo} <=  {write_data_2, write_data_1};
+            end    
 
-            else if(mul == 2) {hi, lo} <= {hi, lo} + {write_data_2, write_data_1};
+            else if(mul == 2) begin
+                {hi, lo} <= {hi, lo} + {write_data_2, write_data_1};
+            end   
             else begin 
                 {hi, lo} <= {hi, lo};
                 GPR[write_address] <= write_data_1;
             end
+
         end     
+
         data_1 <= GPR[read_address_1];
         data_2 <= GPR[read_address_2];
 

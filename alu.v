@@ -84,6 +84,7 @@ module ALU(ALUCtrl, A, B, out, out_high, zero, overflow);
                 end
                 
              13 : begin
+                     // $display(A, B);
                     out <= (A << B);        //SLL
                     out_high <= 0;
                 end

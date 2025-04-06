@@ -1,4 +1,4 @@
-module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul);
+module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul, second_select);
     input [5:0] opcode;
     input [5:0] func;
     input [1:0] type;
@@ -10,19 +10,20 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
     
     output reg [4:0] ALUCtrl;
     output reg [31:0] read_address_1, read_address_2, immediate_value;
-    output reg branch_yes, write_enable, mem_read, mem_write, mem_to_reg;
+    output reg branch_yes, write_enable, mem_read, mem_write, mem_to_reg, second_select;
     output reg [1:0] mul;
     
     always @ (*) begin
         case(type) 
             0 : begin
                 case(func)
-                        6'h20: begin                    //  add r0, r1, r2 r0=r1+r2      
+                        6'h20: begin                    //  add r0, r1, r2 r0=r1+r2   
                                 ALUCtrl <= 5'd2;
                                 read_address_1 <= rs;
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -35,6 +36,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -47,6 +49,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -59,6 +62,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -71,11 +75,12 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
                                 immediate_value <= 0;
-                                mul <= 0;
+                                mul <= 1;
                         end               
                         6'h24: begin //  and r0,r1,r2 r0= r1 & r2                                                               
                                 ALUCtrl <= 5'd0;
@@ -83,6 +88,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -95,6 +101,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -107,6 +114,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= rt;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -119,22 +127,24 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= 0;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 0;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
                                 immediate_value <= 0;
                                 mul <= 0;
                         end               
-                        6'h0:  begin //sll r0, r1, 10 r0=r1<<10 (shift left logical)                       
+                        6'h0:  begin //sll r0, r1, 10 r0=r1<<10 (shift left logical)   
                                 ALUCtrl <= 5'd13;
                                 read_address_1 <= rs;
                                 read_address_2 <= 0;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 1;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
-                                immediate_value <= {27'b0, shamt};;
+                                immediate_value <= {27'b0, shamt};
                                 mul <= 0;
                         end           
                         6'h2:  begin // srl r0, r1, 10 r0=r1>>10 (shift right logical)                        
@@ -143,6 +153,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= 0;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 1;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -155,6 +166,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= 0;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 1;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -168,6 +180,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 read_address_2 <= 0;
                                 branch_yes <= 0;
                                 write_enable <= 1;
+                                second_select <= 1;
                                 mem_read <= 0;
                                 mem_write <= 0;
                                 mem_to_reg <= 0;
@@ -181,6 +194,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                  read_address_2 <= rt;
                                  branch_yes <= 0;
                                  write_enable <= 1;
+                                 second_select <= 0;
                                  mem_read <= 0;
                                  mem_write <= 0;
                                  mem_to_reg <= 0;
@@ -193,6 +207,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                  read_address_2 <= rt;
                                  branch_yes <= 0;
                                  write_enable <= 1;
+                                 second_select <= 0;
                                  mem_read <= 0;
                                  mem_write <= 0;
                                  mem_to_reg <= 0;
@@ -211,6 +226,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= 0;   
                             branch_yes <= 0;      
                             write_enable <= 1; 
+                            second_select <= 1;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -224,6 +240,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= 0;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -237,6 +254,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= 0;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -250,6 +268,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= 0;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -263,6 +282,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= 0;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -276,6 +296,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= 0;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -289,6 +310,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -302,6 +324,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -315,6 +338,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -328,6 +352,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -341,6 +366,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -354,6 +380,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -367,6 +394,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -380,6 +408,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 1;
                             write_enable <= 0;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -393,6 +422,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 1;
                             mem_write <= 0;
                             mem_to_reg <= 1;
@@ -405,6 +435,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 0;
                             write_enable <= 0;
+                            second_select <= 1;
                             mem_read <= 1;
                             mem_write <= 1;
                             mem_to_reg <= 0;
@@ -418,6 +449,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 1;
                             mem_read <= 1;
                             mem_write <= 0;
                             mem_to_reg <= 0;
@@ -431,11 +463,12 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;
                             immediate_value <= 0;
-                            mul <= 1;
+                            mul <= 2;
                     end 
 
                     6'h1D: begin      //maddu r0,r1 unsigned version of madd    
@@ -444,6 +477,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             read_address_2 <= rt;  
                             branch_yes <= 0;
                             write_enable <= 1;
+                            second_select <= 0;
                             mem_read <= 0;
                             mem_write <= 0;
                             mem_to_reg <= 0;

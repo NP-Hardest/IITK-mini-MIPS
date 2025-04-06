@@ -52,6 +52,8 @@ module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type
                 6'h15: type <= 1;
                 6'h16: type <= 1;
                 6'h17: type <= 1;  
+                6'h1C: type <= 1;  
+                6'h1D: type <= 1;  
                 6'h2 : type <= 2;
                 6'h3 : type <= 2;                 
             endcase

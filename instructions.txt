@@ -18,6 +18,8 @@
 //maddu r0,r1 unsigned version of madd                                              0x1c rs rt 0 1
 
 
+//working till here!!!!!!!!
+
 
 
 //addi r0,r1,1000 r0=r1+1000                                                      8 rs rt imm

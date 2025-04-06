@@ -14,7 +14,7 @@ module hahaha(instruction, clk);
     wire [5:0] opcode, funct;
     wire [31:0] imm;
     wire [25:0] addr;
-    wire branch_yes, overflow, ALU_zero, write_enable, mem_read, mem_write, mem_to_reg;
+    wire branch_yes, overflow, ALU_zero, write_enable, mem_read, mem_write, mem_to_reg, second_select;
     wire [1:0] type, mul;
 
 
@@ -35,13 +35,13 @@ module hahaha(instruction, clk);
     
     instruction_decode uut4(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode);
 
-    control uut3(opcode, funct, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul);
+    control uut3(opcode, funct, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul, second_select);
 
     mux uut8 ({27'b0, rd}, {27'b0, rt}, type, write_address);
 
     register_file uu1(clk, write_enable, read_address_1, read_address_2, write_address, ALU_in_1, read_data_2, reg_file_write_in_1, ALU_out_2, mul);
 
-    mux uut5(read_data_2, immediate_value, type, ALU_in_2);
+    mux uut5(read_data_2, immediate_value, {1'b0, second_select}, ALU_in_2);
 
     ALU uut2(ALUCtrl, ALU_in_1, ALU_in_2, ALU_out, ALU_out_2, ALU_zero, overflow);
 
