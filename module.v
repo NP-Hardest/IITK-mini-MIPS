@@ -24,8 +24,6 @@ module hahaha(clk, rst);
     wire [1:0] type, mul;
 
 
-
-
     wire [4:0] ALUCtrl;
 
     wire [31:0] read_address_1, read_address_2, write_address, write_data, immediate_value;
@@ -46,7 +44,7 @@ module hahaha(clk, rst);
 
     mux uut8 ({27'b0, rd}, {27'b0, rt}, type, write_address);
 
-    register_file uu1(clk, we, read_address_1, read_address_2, write_address, ALU_in_1, read_data_2, rs_in, ALU_out_2, mul);
+    register_file uu1(clk, rst, we, read_address_1, read_address_2, write_address, ALU_in_1, read_data_2, rs_in, ALU_out_2, mul);
 
     mux uut69(reg_file_write_in_1, (PC + 1), {1'b0, jump}, rs_in);
 
@@ -58,13 +56,6 @@ module hahaha(clk, rst);
 
     mux uut6(ALU_out, data_memory_out , {1'b0, mem_to_reg}, reg_file_write_in_1);
 
-
-    wire [31:0] PC_plus = PC + 1;
-    wire [31:0] PC_branch = PC + 1 + imm;
-
-
-
-
     wire inst_write_enable;
     wire [31:0] inst_read_address, inst_write_address, inst_data_in, inst_data_out;
 
@@ -72,29 +63,14 @@ module hahaha(clk, rst);
 
     wire [31:0] store;
 
-    // pc_increment pci(PC, type, opcode, branch_yes, ALU_zero, imm, addr, ALU_in_1, store);
-
+    pc_increment pci(PC, type, opcode, branch_yes, ALU_zero, imm, addr, ALU_in_1, store);
 
 
     always @(posedge clk) begin
-        if(rst) begin
-            PC <= 0;
-        end else begin
-            if (type == 2) begin 
-                case(opcode)
-                    2 : PC <= addr;       // j
-                    3 : PC <= addr;       // jal
-                    1 : PC <= ALU_in_1;   // jr
-                    default: PC <= PC + 1;
-                endcase
-            end else begin
-                if (branch_yes && !ALU_zero)
-                    PC <= PC + 1 + imm;
-                else
-                    PC <= PC + 1;
-            end
-        end
-        $display(instruction, PC);
+        // $display(instruction, PC, ALU_out,  read_data_2, data_memory_out, mem_write, mem_to_reg);
+        if(rst) PC <= 0;
+    
+        else PC <= store;
     end
 
 

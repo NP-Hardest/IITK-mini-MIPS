@@ -1,5 +1,5 @@
-module register_file(clk, write_enable, read_address_1, read_address_2, write_address, read_data_1, read_data_2, write_data_1, write_data_2, mul);
-    input clk, write_enable;
+module register_file(clk,rst, write_enable, read_address_1, read_address_2, write_address, read_data_1, read_data_2, write_data_1, write_data_2, mul);
+    input clk, rst , write_enable;
     input [1:0] mul;
     input [31:0] read_address_1, read_address_2, write_address, write_data_1, write_data_2;
     output [31:0] read_data_1, read_data_2;
@@ -29,32 +29,34 @@ module register_file(clk, write_enable, read_address_1, read_address_2, write_ad
     // 16 -> s0         31 -> ra
 
 
-    initial begin
-        GPR[2] = 32'd3;
-        GPR[1] = 32'd1;
-        GPR[0] = 32'd0;             //$zero register
+    always @ (*) begin
+            data_1 <= GPR[read_address_1];
+            data_2 <= GPR[read_address_2];
     end
 
     always @ (posedge clk) begin
-        if(write_enable) begin
-            if(mul == 1) begin
-                {hi, lo} <=  {write_data_2, write_data_1};
-            end    
+        if(rst) begin
+            GPR[0] <= 0; 
+        end
+        else begin
+            if(write_enable) begin
+                if(mul == 1) begin
+                    {hi, lo} <=  {write_data_2, write_data_1};
+                end    
 
-            else if(mul == 2) begin
-                {hi, lo} <= {hi, lo} + {write_data_2, write_data_1};
-            end   
-            else begin 
-                {hi, lo} <= {hi, lo};
-                GPR[write_address] <= write_data_1;
-            end
+                else if(mul == 2) begin
+                    {hi, lo} <= {hi, lo} + {write_data_2, write_data_1};
+                end   
+                
+                else begin 
+                    {hi, lo} <= {hi, lo};
+                    GPR[write_address] <= write_data_1;
+                end
+            end     
 
-        end     
-
-        data_1 <= GPR[read_address_1];
-        data_2 <= GPR[read_address_2];
-
+        end
     end
+
     assign read_data_1 = data_1;
     assign read_data_2 = data_2;
 

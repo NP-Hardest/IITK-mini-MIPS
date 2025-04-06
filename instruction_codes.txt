@@ -1,0 +1,66 @@
+
+//d add r0, r1, r2 r0=r1+r2                                                          {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h20}
+//d sub r0, r1, r2 r0=r1-r2                                                          {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h22}
+//d addu r0, r1, r2 r0=r1+r2 (unsigned addition, not 2's complement)                 {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h21}   
+//d subu r0,r1,r2 r0=r1-r2 (unsigned addition, not 2's complement)                   {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h23}
+//d and r0,r1,r2 r0= r1 & r2                                                         {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h24}
+//d or r0,r1,r2 r0=r1 | r2                                                           {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h25}
+//d not r0,r1 ro=r1                                                                  {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h27} 
+//d xor, r0,r1,r2 r= r1 xor r2                                                       {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h26}
+//d sll r0, r1, 10 r0=r1<<10 (shift left logical)                                    {6'h0, 5'd1, 5'd2, 5'd3, 5'd2, 6'h0}
+//d srl r0, r1, 10 r0=r1>>10 (shift right logical)                                   {6'h0, 5'd1, 5'd2, 5'd3, 5'd2, 6'h2}
+//d sla r0, r1, 10 r0=r1<<10 (shift left arithmetic)                                 {6'h0, 5'd1, 5'd2, 5'd3, 5'd2, 6'h4}                  
+//d sra r0, r1, 10 r0=r1>>10 (shift right arithmetic)                                {6'h0, 5'd1, 5'd2, 5'd3, 5'd2, 6'h3}
+//d slt r0,r1,r2 if(r1<r2) r0=1 else r0=0                                            {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h2A}
+//d seq r0,r1,r2 if(r1=r2) r0=1 else r0=0                                            {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h2B} 
+//d mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                                        {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h18}
+//madd r0,r1 r0*r1 added with the value in the concatenated registers lo and hi.     {6'h1C, 5'd1, 5'd2, 16'd0}
+//maddu r0,r1 unsigned version of madd                                               {6'h1D, 5'd1, 5'd2, 16'd0}                      ///WE CHANGED THISSSS
+
+
+
+//addi r0,r1,1000 r0=r1+1000                                                      {6'h8, 5'd1, 5'd2, 16'h20}
+//addiu r0,r1, 1000 r0=r1+1000 (unsigned additon, not 2's complement)             {6'h9, 5'd1, 5'd2, 16'h20}
+//andi r0,r1, 1000 r0= r1 & 1000                                                  {6'hc, 5'd1, 5'd2, 16'h20}
+//ori r0,r1, 1000 r0= r1 | 1000                                                   {6'hd, 5'd1, 5'd2, 16'h20}
+//xori, r0,r1,1000 r0=r1 xor 1000                                                 {6'he, 5'd1, 5'd2, 16'h20}
+//slti r0,r1,100 if(r1<100) r0=1 else r0=0                                        {6'ha, 5'd1, 5'd2, 16'h20}
+//lw r0,10(r1) r0=Memory[r1+10] (load word)                                       {6'h23, 5'd1, 5'd2, 16'h20}
+//sw r0,10(r1) Memory[r1+10]=r0 (store word)                                      {6'h2B, 5'd1, 5'd2, 16'h20}
+//lui r0, 1000 r0[31:16]=1000                                                     {6'hF, 5'd0, 5'd2, 16'h20}
+
+
+
+//working till here!!!!!!!!
+
+
+//beq r0,r1,10 if(r0==r1) go to PC+4+10 (branch on equal)                         4 rs rt Offset
+//bne r0,r1,10 if(r0!=r1) go to PC+4+10 (branch on not equal)                     5 rs rt Offset                                                 
+//bgte r0,r1, 10 if(r0>=r1) go to PC+4+10 (branch if greter than or equal)        0x12 rs rt Offset      
+//ble r0,r1, 10 if(r0<r1) go to PC+4+10 (branch if less than)                     0x13 rs rt Offset      
+//bleq r0,r1, 10 if(r0<=r1) go to PC+4+10 (branch if less than or equal)          0x14 rs rt Offset          
+//bleu r0,r1, 10 unsigned version of ble                                          0x15 rs rt Offset      
+//bgtu r0,r1, 10 unsigned version of bgt                                          0x16 rs rt Offset    
+//bgt r0,r1,10 if(r0>r1) go to PC+4+10 (branch if greater than)                   0x17 rs rt Offset   
+
+
+
+
+//Unconditional Branch  
+//j 10 jump to address 10                                                        2 target
+//jr r0 jump to address stored in register r0                                   d 0 rs 0 8          // IMPROTANT !!!!! CHANGING THIS to 1 rs 0 0 0 0
+//jal 10 ra=PC+4 and jump to address 10                                          3 target
+
+
+//Floating point
+//mfcl r0, f0 r0=f0                                                        0x11 0 rt fs 0
+//mtc1 f0,r0 f0=r0                                                         0x11 4 rt fs 0
+//add.s f0,f1, f2 f0=f1+f2                                                 0x11 0x10 ft fs fd 0
+//sub.s f0,f1, f2 f0=f1-f2                                                 0x11 0x10 ft fs fd 1
+//c.eq.s cc f0, f1 the flag cc is set to one if f0=f1                      0x11 0x10 ft fs cc 0 FC 2
+//c.le.s cc f0, f1 the flag cc is set to one if f0<=f1                     0x11 0x10 ft fs cc 0 FC 0xe
+//c.lt.s cc f0, f1 the flag cc is set to one if f0<f1                      0x11 0x10 ft fs cc 0 FC 0xc
+//c.ge.s cc f0, f1 the flag cc is set to one if f0>=f1
+//c.gt.s cc f0, f1 the flag cc is set to one if f0>f1
+//mov.s cc f0, f1 f0=f1                                                    0x11 0x10 0 fs fd 6
+
