@@ -531,10 +531,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
              end
         endcase
     end
-    
- 
-    
-    
+       
 endmodule
 
 

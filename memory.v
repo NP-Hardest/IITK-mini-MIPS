@@ -70,7 +70,6 @@ module inst_memory(clk, write_enable, read_address, write_address, data_in, data
         mem[21] = {6'h2, 26'h3};//
         mem[22] = {6'h8, 5'd1, 5'd2, 16'h20};
 
-
     end
 
     always @(posedge clk) begin
