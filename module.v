@@ -38,15 +38,14 @@ module hahaha(clk, rst);
 
 
     
-    instruction_decode uut4(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode, jump);
+    instruction_decode instruction_decode_dut(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode, jump);
 
-    control uut3(opcode, funct, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul, second_select);
+    control control_unit(opcode, funct, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul, second_select);
 
     mux_3 uut8 ({27'b0, rd}, {27'b0, rt}, 31, type, write_address);
-    // mux uut11 (write_address, 31, {1'b0,jump}, write_address_final);
 
 
-    register_file uu1(clk, rst, we, read_address_1, read_address_2, write_address, ALU_in_1, read_data_2, rs_in, ALU_out_2, mul);
+    register_file reg_file(clk, rst, we, read_address_1, read_address_2, write_address, ALU_in_1, read_data_2, rs_in, ALU_out_2, mul);
 
     mux uut69(reg_file_write_in_1, (PC + 1), {1'b0, jump}, rs_in);
 
@@ -54,7 +53,7 @@ module hahaha(clk, rst);
 
     mux uut5(read_data_2, immediate_value, {1'b0, second_select}, ALU_in_2);
 
-    ALU uut2(ALUCtrl, ALU_in_1, ALU_in_2, ALU_out, ALU_out_2, ALU_zero, overflow);
+    ALU ALU(ALUCtrl, ALU_in_1, ALU_in_2, ALU_out, ALU_out_2, ALU_zero, overflow);
 
     mux uut6(ALU_out, data_memory_out , {1'b0, mem_to_reg}, reg_file_write_in_1);
 
@@ -69,8 +68,7 @@ module hahaha(clk, rst);
 
 
     always @(posedge clk) begin
-        $display("PC : %d, inst : %d, ALU_in_1 : %d, branch_yes : %d", PC, instruction, ALU_in_1, branch_yes);
-        // $display(instruction, PC, ALU_out,  read_data_2, data_memory_out, mem_write, mem_to_reg);
+        $display("PC : %d, inst : %d", PC, instruction);
         if(rst) PC <= 0;
     
         else PC <= store;

@@ -10,29 +10,6 @@ module register_file(clk,rst, write_enable, read_address_1, read_address_2, writ
 
     reg [31:0] lo, hi;
 
-    // 0 -> zero       
-    // 1 -> at          
-    // 2 -> v0          17 -> s1
-    // 3 -> v1          18 -> s2
-    // 4 -> a0          19 -> s3
-    // 5 -> a1          20 -> s4
-    // 6 -> a2          21 -> s5
-    // 7 -> a3          22 -> s6
-    // 8 -> t0          23 -> s7    
-    // 9 -> t1          24 -> t8
-    // 10 -> t2         25 -> t9
-    // 11 -> t3         26 -> k0
-    // 12 -> t4         27 -> k1
-    // 13 -> t5         28 -> gp
-    // 14 -> t6         29 -> sp
-    // 15 -> t7         30 -> fp
-    // 16 -> s0         31 -> ra
-
-
-    always @ (*) begin
-            data_1 <= GPR[read_address_1];
-            data_2 <= GPR[read_address_2];
-    end
 
     always @ (posedge clk) begin
         if(rst) begin
@@ -57,7 +34,25 @@ module register_file(clk,rst, write_enable, read_address_1, read_address_2, writ
         end
     end
 
-    assign read_data_1 = data_1;
-    assign read_data_2 = data_2;
+    assign read_data_1 = GPR[read_address_1];
+    assign read_data_2 = GPR[read_address_2];
 
 endmodule
+
+ // 0 -> zero       
+    // 1 -> at          
+    // 2 -> v0          17 -> s1
+    // 3 -> v1          18 -> s2
+    // 4 -> a0          19 -> s3
+    // 5 -> a1          20 -> s4
+    // 6 -> a2          21 -> s5
+    // 7 -> a3          22 -> s6
+    // 8 -> t0          23 -> s7    
+    // 9 -> t1          24 -> t8
+    // 10 -> t2         25 -> t9
+    // 11 -> t3         26 -> k0
+    // 12 -> t4         27 -> k1
+    // 13 -> t5         28 -> gp
+    // 14 -> t6         29 -> sp
+    // 15 -> t7         30 -> fp
+    // 16 -> s0         31 -> ra
