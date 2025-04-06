@@ -34,22 +34,22 @@
 //working till here!!!!!!!!
 
 
-//beq r0,r1,10 if(r0==r1) go to PC+4+10 (branch on equal)                         4 rs rt Offset
-//bne r0,r1,10 if(r0!=r1) go to PC+4+10 (branch on not equal)                     5 rs rt Offset                                                 
-//bgte r0,r1, 10 if(r0>=r1) go to PC+4+10 (branch if greter than or equal)        0x12 rs rt Offset      
-//ble r0,r1, 10 if(r0<r1) go to PC+4+10 (branch if less than)                     0x13 rs rt Offset      
-//bleq r0,r1, 10 if(r0<=r1) go to PC+4+10 (branch if less than or equal)          0x14 rs rt Offset          
-//bleu r0,r1, 10 unsigned version of ble                                          0x15 rs rt Offset      
-//bgtu r0,r1, 10 unsigned version of bgt                                          0x16 rs rt Offset    
-//bgt r0,r1,10 if(r0>r1) go to PC+4+10 (branch if greater than)                   0x17 rs rt Offset   
+//beq r0,r1,10 if(r0==r1) go to PC+4+10 (branch on equal)                         {6'h4, 5'd0, 5'd2, 16'h20}
+//bne r0,r1,10 if(r0!=r1) go to PC+4+10 (branch on not equal)                     {6'h5, 5'd0, 5'd2, 16'h20}                                     
+//bgte r0,r1, 10 if(r0>=r1) go to PC+4+10 (branch if greter than or equal)        {6'h12, 5'd0, 5'd2, 16'h20}
+//ble r0,r1, 10 if(r0<r1) go to PC+4+10 (branch if less than)                     {6'h13, 5'd0, 5'd2, 16'h20}
+//bleq r0,r1, 10 if(r0<=r1) go to PC+4+10 (branch if less than or equal)          {6'h14, 5'd0, 5'd2, 16'h20} 
+//bleu r0,r1, 10 unsigned version of ble                                          {6'h15, 5'd0, 5'd2, 16'h20}
+//bgtu r0,r1, 10 unsigned version of bgt                                          {6'h16, 5'd0, 5'd2, 16'h20}
+//bgt r0,r1,10 if(r0>r1) go to PC+4+10 (branch if greater than)                   {6'h17, 5'd0, 5'd2, 16'h20}
 
 
 
 
 //Unconditional Branch  
-//j 10 jump to address 10                                                        2 target
-//jr r0 jump to address stored in register r0                                   d 0 rs 0 8          // IMPROTANT !!!!! CHANGING THIS to 1 rs 0 0 0 0
-//jal 10 ra=PC+4 and jump to address 10                                          3 target
+//j 10 jump to address 10                                                       {6'h2, 26'h10}
+//jr r0 jump to address stored in register r0                                   d 0 rs 0 8                          // IMPROTANT !!!!! CHANGING THIS to 1 rs 0 0 0 0
+//jal 10 ra=PC+4 and jump to address 10                                         {6'h3, 26'h10}
 
 
 //Floating point

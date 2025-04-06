@@ -41,11 +41,12 @@ module inst_memory(clk, write_enable, read_address, write_address, data_in, data
     reg [31:0] mem [1023:0];
 
     initial begin
-        // mem[0] = {6'h0, 5'd0, 5'd0, 16'h2D};            //DO Nothing instruction
-        mem[0] = {6'h8, 5'd0, 5'd8, 16'h20};
-        mem[1] = {6'h8, 5'd0, 5'd9, 16'h1};
-        mem[2] = {6'h2B, 5'd9, 5'd8, 16'h10};
+
+        mem[0] = {6'h8, 5'd0, 5'd8, 16'h23};
+        mem[1] = {6'h8, 5'd0, 5'd9, 16'h23};
+        mem[2] = {6'h17, 5'd8, 5'd9, -16'h2};
         mem[3] = {6'h23, 5'd9, 5'd10, 16'h10};
+        mem[4] = {6'h1, 5'd31, 21'h0};
 
     end
 

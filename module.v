@@ -26,7 +26,7 @@ module hahaha(clk, rst);
 
     wire [4:0] ALUCtrl;
 
-    wire [31:0] read_address_1, read_address_2, write_address, write_data, immediate_value;
+    wire [31:0] read_address_1, read_address_2, write_address, write_data, immediate_value, write_address_final;
 
     wire [31:0] ALU_in_1, ALU_in_2, read_data_2, ALU_out, ALU_out_2;
 
@@ -42,7 +42,9 @@ module hahaha(clk, rst);
 
     control uut3(opcode, funct, type, ALUCtrl, rs, rt, rd, read_address_1, read_address_2, shamt, imm, branch_yes, write_enable, mem_read, mem_write, mem_to_reg, immediate_value, mul, second_select);
 
-    mux uut8 ({27'b0, rd}, {27'b0, rt}, type, write_address);
+    mux_3 uut8 ({27'b0, rd}, {27'b0, rt}, 31, type, write_address);
+    // mux uut11 (write_address, 31, {1'b0,jump}, write_address_final);
+
 
     register_file uu1(clk, rst, we, read_address_1, read_address_2, write_address, ALU_in_1, read_data_2, rs_in, ALU_out_2, mul);
 
@@ -67,6 +69,7 @@ module hahaha(clk, rst);
 
 
     always @(posedge clk) begin
+        $display("PC : %d, inst : %d, ALU_in_1 : %d, branch_yes : %d", PC, instruction, ALU_in_1, branch_yes);
         // $display(instruction, PC, ALU_out,  read_data_2, data_memory_out, mem_write, mem_to_reg);
         if(rst) PC <= 0;
     
