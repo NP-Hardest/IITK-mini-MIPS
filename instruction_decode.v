@@ -1,4 +1,4 @@
-module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode);
+module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode, jump);
     input [31:0] instruction;
     output reg [1:0] type;
     
@@ -29,33 +29,105 @@ module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type
     wire [5:0] op = instruction[31:26];
     output [5:0] opcode;
     assign opcode = op;
+
+    output reg jump;
         
         
     always @ (*) begin
-        if(op == 0) type <= 0;
+        if(op == 0) begin 
+            type <= 0;
+            jump <= 0;
+        end
         else begin
             case(op) 
-                6'h8 : type <= 1;
-                6'h9 : type <= 1;
-                6'hC : type <= 1;
-                6'hD : type <= 1;
-                6'hE : type <= 1;
-                6'hA : type <= 1;
-                6'h23: type <= 1;
-                6'h2B: type <= 1;
-                6'hF : type <= 1;
-                6'h4 : type <= 1;
-                6'h5 : type <= 1;
-                6'h12: type <= 1;
-                6'h13: type <= 1;
-                6'h14: type <= 1;
-                6'h15: type <= 1;
-                6'h16: type <= 1;
-                6'h17: type <= 1;  
-                6'h1C: type <= 1;  
-                6'h1D: type <= 1;  
-                6'h2 : type <= 2;
-                6'h3 : type <= 2;                 
+                6'h8 : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h9 : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'hC : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'hD : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'hE : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'hA : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h23: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h2B: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'hF : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h4 : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h5 : begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h12: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h13: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h14: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h15: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h16: begin
+                    type <= 1;
+                    jump <= 0;
+                end
+                6'h17: begin
+                    type <= 1;
+                    jump <= 0;
+                end  
+                6'h1C: begin
+                    type <= 1;
+                    jump <= 0;
+                end  
+                6'h1D: begin
+                    type <= 1;
+                    jump <= 0;
+                end  
+                6'h1 : begin
+                    type <= 2;
+                    jump <= 1;
+                end            
+                6'h2 : begin
+                    type <= 2;
+                    jump <= 1;
+                end
+                6'h3 : begin
+                    type <= 2;
+                    jump <= 1;
+                end     
             endcase
         end
         

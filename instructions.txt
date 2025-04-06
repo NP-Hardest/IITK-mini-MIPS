@@ -48,7 +48,7 @@
 
 //Unconditional Branch  
 //j 10 jump to address 10                                                        2 target
-//jr r0 jump to address stored in register r0                                   d 0 rs 0 8
+//jr r0 jump to address stored in register r0                                   d 0 rs 0 8          // IMPROTANT !!!!! CHANGING THIS to 1 rs 0 0 0 0
 //jal 10 ra=PC+4 and jump to address 10                                          3 target
 
 

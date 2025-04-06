@@ -128,7 +128,12 @@ module ALU(ALUCtrl, A, B, out, out_high, zero, overflow);
                   product = (A * B);
                   out <= product[31:0];
                   out_high <= product[63:32];
-                end    
+                end 
+
+            22 : begin              //Buffer
+                  out <= A;
+                  out_high <= 0;
+            end     
                     
              default : begin
                   out <= 0;

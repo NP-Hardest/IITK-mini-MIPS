@@ -484,22 +484,35 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                             immediate_value <= 0;
                             mul <= 2;
                     end 
-                //     default: begin
-                //             ALUCtrl <= 5'd30;
-                //             read_address_1 <= rs;
-                //             read_address_2 <= rt;  
-                //             branch_yes <= 0;
-                //             write_enable <= 1;
-                //             mem_read <= 0;
-                //             mem_write <= 0;
-                //             mem_to_reg <= 0;
-                //             immediate_value <= 0;
-                //     end
+
+                    default: begin
+                            ALUCtrl <= 5'd30;
+                            read_address_1 <= 0;
+                            read_address_2 <= 0;  
+                            branch_yes <= 0;
+                            write_enable <= 0;
+                            mem_read <= 0;
+                            mem_write <= 0;
+                            mem_to_reg <= 0;
+                            immediate_value <= 0;
+                    end
                         
                 endcase
              
              end   
-            
+
+           2: begin
+                ALUCtrl <= 5'd22;
+                read_address_1 <= rs;
+                read_address_2 <= 0;  
+                branch_yes <= 0;
+                write_enable <= 0;
+                mem_read <= 0;
+                mem_write <= 0;
+                mem_to_reg <= 0;
+                immediate_value <= 0;
+
+             end
         endcase
     end
     

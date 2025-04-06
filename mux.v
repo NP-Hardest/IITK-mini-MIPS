@@ -6,3 +6,13 @@ module mux(a, b, sel, out);
     assign out = sel ? b : a;
 
 endmodule
+
+module mux_2(a, b, sel, out);
+    input a, b;
+    input sel;
+    output out;
+
+    assign out = sel ? b : a;
+
+endmodule
+
