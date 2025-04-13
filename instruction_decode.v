@@ -1,4 +1,4 @@
-module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode, jump);
+module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type, opcode, jump, fp);
     input [31:0] instruction;
     output reg [1:0] type;
     
@@ -31,103 +31,140 @@ module instruction_decode(instruction, rs, rt, rd, shamt, funct, imm, addr, type
     assign opcode = op;
 
     output reg jump;
+    output reg [2:0] fp;
         
         
     always @ (*) begin
         if(op == 0) begin 
             type <= 0;
             jump <= 0;
+            case (funct) 
+                6'h10 : fp <= 2;
+                6'h11 : fp <= 1;
+                6'h12 : fp <= 7;
+                6'h13 : fp <= 7;
+                6'h14 : fp <= 7;
+                6'h15 : fp <= 7;
+                6'h16 : fp <= 7;
+                6'h17 : fp <= 7;
+                6'h18 : fp <= 7;
+                6'h19 : fp <= 3;
+                default : fp <= 0;
+            endcase
         end
         else begin
             case(op) 
                 6'h8 : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h9 : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'hC : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'hD : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'hE : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'hA : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h23: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h2B: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'hF : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h4 : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h5 : begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h12: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h13: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h14: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h15: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h16: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end
                 6'h17: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end  
                 6'h1C: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end  
                 6'h1D: begin
                     type <= 1;
                     jump <= 0;
+                    fp <= 0;
                 end  
                 6'h1 : begin
                     type <= 2;
                     jump <= 1;
+                    fp <= 0;
                 end            
                 6'h2 : begin
                     type <= 2;
                     jump <= 1;
+                    fp <= 0;
                 end
                 6'h3 : begin
                     type <= 2;
                     jump <= 1;
+                    fp <= 0;
                 end     
+
             endcase
         end
         

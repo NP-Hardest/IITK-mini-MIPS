@@ -7,6 +7,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
     input [4:0] rd; 
     input [4:0] shamt; 
     input [31:0] imm;
+    input fp;
     
     output reg [4:0] ALUCtrl;
     output reg [31:0] read_address_1, read_address_2, immediate_value;
@@ -69,7 +70,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                                 immediate_value <= 0;
                                 mul <= 0;
                         end                    
-                        6'h18: begin // d             mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                     
+                        6'h28: begin // d             mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                     
                                 ALUCtrl <= 5'd5;
                                 read_address_1 <= rs;
                                 read_address_2 <= rt;
@@ -204,6 +205,138 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
                         6'h2B: begin    //seq r0, r1, r2      
                                  ALUCtrl <= 5'd11;
                                  read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end     
+                        //Floating Point Instructions
+
+                        6'h10: begin    //mfcl r0, f0    
+                                 ALUCtrl <= 5'd23;
+                                 read_address_1 <= 0;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h11: begin    //mtc1 f0,r0   
+                                 ALUCtrl <= 5'd23;
+                                 read_address_1 <= 0;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h12: begin    //add.s f0,f1, f2 f0=f1+f2     
+                                ALUCtrl <= 5'd23;
+                                read_address_1 <= rs;
+                                read_address_2 <= rt;
+                                branch_yes <= 0;
+                                write_enable <= 1;
+                                second_select <= 0;
+                                mem_read <= 0;
+                                mem_write <= 0;
+                                mem_to_reg <= 0;
+                                immediate_value <= 0;
+                                mul <= 0;
+                        end      
+                        6'h13: begin    //sub.s f0,f1, f2 f0=f1-f2      
+                                 ALUCtrl <= 5'd24;
+                                 read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h14: begin    //c.eq.s cc f0, f1  
+                                 ALUCtrl <= 5'd25;
+                                 read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h15: begin    //c.le.s cc f0, f1
+                                 ALUCtrl <= 5'd26;
+                                 read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h16: begin    //c.lt.s cc f0, f1    
+                                 ALUCtrl <= 5'd27;
+                                 read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h17: begin    //c.ge.s cc f0, f1 
+                                 ALUCtrl <= 5'd28;
+                                 read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h18: begin    //c.gt.s cc f0, f1   
+                                 ALUCtrl <= 5'd29;
+                                 read_address_1 <= rs;
+                                 read_address_2 <= rt;
+                                 branch_yes <= 0;
+                                 write_enable <= 1;
+                                 second_select <= 0;
+                                 mem_read <= 0;
+                                 mem_write <= 0;
+                                 mem_to_reg <= 0;
+                                 immediate_value <= 0;
+                                 mul <= 0;
+                        end      
+                        6'h19: begin    //mov.s cc f0, f1
+                                 ALUCtrl <= 5'd23;
+                                 read_address_1 <= 0;
                                  read_address_2 <= rt;
                                  branch_yes <= 0;
                                  write_enable <= 1;

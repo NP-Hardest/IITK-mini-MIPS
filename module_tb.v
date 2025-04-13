@@ -15,20 +15,30 @@ module tb_hahaha;
 
     initial begin
         rst <= 1;
-        #20;
+        #30;
         rst <= 0;
-        #18000;
+        #70;
 
         $display("time : %t",$time);
         $display("GPRs:");
         $display("$0:  %d, $1:  %d, $2:  %d, $3:  %d, ", uut.reg_file.GPR[0], uut.reg_file.GPR[1], uut.reg_file.GPR[2], uut.reg_file.GPR[3]);
         $display("$4:  %d, $5:  %d, $6:  %d, $7:  %d, ", uut.reg_file.GPR[4], uut.reg_file.GPR[5], uut.reg_file.GPR[6], uut.reg_file.GPR[7]);
         $display("$8:  %d, $9:  %d, $10: %d, $11: %d, ", uut.reg_file.GPR[8], uut.reg_file.GPR[9], uut.reg_file.GPR[10], uut.reg_file.GPR[11]);
-        $display("$12: %d, $13: %d, $14: %d, $15: %d, ", uut.reg_file.GPR[12], uut.reg_file.GPR[13], uut.reg_file.GPR[14], uut.reg_file.GPR[15]);
+        $display("$12: %d, $13: %d, $14: %d, $15: %h, ", uut.reg_file.GPR[12], uut.reg_file.GPR[13], uut.reg_file.GPR[14], uut.reg_file.GPR[15]);
         $display("$16: %d, $17: %d, $18: %d, $19: %d, ", uut.reg_file.GPR[16], uut.reg_file.GPR[17], uut.reg_file.GPR[18], uut.reg_file.GPR[19]);
         $display("$20: %d, $21: %d, $22: %d, $23: %d, ", uut.reg_file.GPR[20], uut.reg_file.GPR[21], uut.reg_file.GPR[22], uut.reg_file.GPR[23]);
         $display("$24: %d, $25: %d, $26: %d, $27: %d, ", uut.reg_file.GPR[24], uut.reg_file.GPR[25], uut.reg_file.GPR[26], uut.reg_file.GPR[27]);
         $display("$28: %d, $29: %d, $30: %d, $31: %d, ", uut.reg_file.GPR[28], uut.reg_file.GPR[29], uut.reg_file.GPR[30], uut.reg_file.GPR[31]);
+        
+        $display("FPRs:");
+        $display("$0:  %h, $1:  %h, $2:  %h, $3:  %h, ", uut.reg_file.FPR[0], uut.reg_file.FPR[1], uut.reg_file.FPR[2], uut.reg_file.FPR[3]);
+        $display("$4:  %h, $5:  %h, $6:  %h, $7:  %h, ", uut.reg_file.FPR[4], uut.reg_file.FPR[5], uut.reg_file.FPR[6], uut.reg_file.FPR[7]);
+        $display("$8:  %h, $9:  %h, $10: %h, $11: %h, ", uut.reg_file.FPR[8], uut.reg_file.FPR[9], uut.reg_file.FPR[10], uut.reg_file.FPR[11]);
+        $display("$12: %h, $13: %h, $14: %h, $15: %h, ", uut.reg_file.FPR[12], uut.reg_file.FPR[13], uut.reg_file.FPR[14], uut.reg_file.FPR[15]);
+        $display("$16: %h, $17: %h, $18: %h, $19: %h, ", uut.reg_file.FPR[16], uut.reg_file.FPR[17], uut.reg_file.FPR[18], uut.reg_file.FPR[19]);
+        $display("$20: %h, $21: %h, $22: %h, $23: %h, ", uut.reg_file.FPR[20], uut.reg_file.FPR[21], uut.reg_file.FPR[22], uut.reg_file.FPR[23]);
+        $display("$24: %h, $25: %h, $26: %h, $27: %h, ", uut.reg_file.FPR[24], uut.reg_file.FPR[25], uut.reg_file.FPR[26], uut.reg_file.FPR[27]);
+        $display("$28: %h, $29: %h, $30: %h, $31: %h, ", uut.reg_file.FPR[28], uut.reg_file.FPR[29], uut.reg_file.FPR[30], uut.reg_file.FPR[31]);
         
         $display("Data Memory:");
         $display("$memory[0]:  %d, $memory[1]:  %d, $memory[2]:  %d, $memory[3]:  %d, ", uut.data_memory.mem[0], uut.data_memory.mem[1], uut.data_memory.mem[2], uut.data_memory.mem[3]);

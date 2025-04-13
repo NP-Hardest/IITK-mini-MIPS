@@ -13,7 +13,7 @@
 //d sra r0, r1, 10 r0=r1>>10 (shift right arithmetic)                                {6'h0, 5'd1, 5'd2, 5'd3, 5'd2, 6'h3}
 //d slt r0,r1,r2 if(r1<r2) r0=1 else r0=0                                            {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h2A}
 //d seq r0,r1,r2 if(r1=r2) r0=1 else r0=0                                            {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h2B} 
-//d mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                                        {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h18}
+//d mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                                        {6'h0, 5'd1, 5'd2, 5'd3, 5'd0, 6'h28}
 //madd r0,r1 r0*r1 added with the value in the concatenated registers lo and hi.     {6'h1C, 5'd1, 5'd2, 16'd0}
 //maddu r0,r1 unsigned version of madd                                               {6'h1D, 5'd1, 5'd2, 16'd0}                      ///WE CHANGED THISSSS
 
@@ -48,21 +48,21 @@
 
 //Unconditional Branch  
 //j 10 jump to address 10                                                       {6'h2, 26'h10}
-//jr r0 jump to address stored in register r0                                   d 0 rs 0 8                          // IMPROTANT !!!!! CHANGING THIS to 1 rs 0 0 0 0
+//jr r0 jump to address stored in register r0                                   {6'h1,5'd31, 21'd0}                        // IMPROTANT !!!!! CHANGING THIS to 1 rs 0 0 0 0
 //jal 10 ra=PC+4 and jump to address 10                                         {6'h3, 26'h10}
 
 
 //Floating point
-//mfcl r0, f0 r0=f0                                                        0x11 0 rt fs 0
-//mtc1 f0,r0 f0=r0                                                         0x11 4 rt fs 0
-//add.s f0,f1, f2 f0=f1+f2                                                 0x11 0x10 ft fs fd 0
-//sub.s f0,f1, f2 f0=f1-f2                                                 0x11 0x10 ft fs fd 1
-//c.eq.s cc f0, f1 the flag cc is set to one if f0=f1                      0x11 0x10 ft fs cc 0 FC 2
-//c.le.s cc f0, f1 the flag cc is set to one if f0<=f1                     0x11 0x10 ft fs cc 0 FC 0xe
-//c.lt.s cc f0, f1 the flag cc is set to one if f0<f1                      0x11 0x10 ft fs cc 0 FC 0xc
-//c.ge.s cc f0, f1 the flag cc is set to one if f0>=f1
-//c.gt.s cc f0, f1 the flag cc is set to one if f0>f1
-//mov.s cc f0, f1 f0=f1                                                    0x11 0x10 0 fs fd 6
+//mfcl r0, f0 r0=f0                                                        {6'h0, 5'd0, 5'd14, 5'd15, 5'd0, 6'h10}
+//mtc1 f0,r0 f0=r0                                                         {6'h0, 5'd0, 5'd14, 5'd15, 5'd0, 6'h11}
+//add.s f0,f1, f2 f0=f1+f2                                                 {6'h0, 5'd13, 5'd14, 5'd15, 5'd0, 6'h12}    
+//sub.s f0,f1, f2 f0=f1-f2                                                 {6'h0, 5'd13, 5'd14, 5'd15, 5'd0, 6'h13}    
+//c.eq.s cc f0, f1 the flag cc is set to one if f0=f1                      {6'h0, 5'd13, 5'd14, 5'd31, 5'd0, 6'h14}
+//c.le.s cc f0, f1 the flag cc is set to one if f0<=f1                     {6'h0, 5'd13, 5'd14, 5'd31, 5'd0, 6'h15}
+//c.lt.s cc f0, f1 the flag cc is set to one if f0<f1                      {6'h0, 5'd13, 5'd14, 5'd31, 5'd0, 6'h16}
+//c.ge.s cc f0, f1 the flag cc is set to one if f0>=f1                     {6'h0, 5'd13, 5'd14, 5'd31, 5'd0, 6'h17}
+//c.gt.s cc f0, f1 the flag cc is set to one if f0>f1                      {6'h0, 5'd13, 5'd14, 5'd31, 5'd0, 6'h18}
+//mov.s cc f0, f1 f0=f1                                                    {6'h0, 5'd0, 5'd14, 5'd15, 5'd0, 6'h19}
 
 
 //FORMAT FOR THESE INSTRUCTIONS
@@ -82,7 +82,7 @@
 //d sra r0, r1, 10 r0=r1>>10 (shift right arithmetic)                                d 0 rs rt rd shamt 3
 //d slt r0,r1,r2 if(r1<r2) r0=1 else r0=0                                            d 0 rs rt rd 0 0x2a
 //d seq r0,r1,r2 if(r1=r2) r0=1 else r0=0                                            d 0 rs rt rd 0 0x2b 
-//d mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                                        d 0 rs rt 0 0x18
+//d mul r0,r1 hi=z[63:32],lo=z[31:0], Z=r0*r1                                        d 0 rs rt 0 0x28
 //madd r0,r1 r0*r1 added with the value in the concatenated registers lo and hi.    0x1c rs rt 0 0
 //maddu r0,r1 unsigned version of madd                                              0x1c rs rt 0 1
 
@@ -122,14 +122,14 @@
 
 
 //Floating point
-//mfcl r0, f0 r0=f0                                                        0x11 0 rt fs 0
-//mtc1 f0,r0 f0=r0                                                         0x11 4 rt fs 0
-//add.s f0,f1, f2 f0=f1+f2                                                 0x11 0x10 ft fs fd 0
-//sub.s f0,f1, f2 f0=f1-f2                                                 0x11 0x10 ft fs fd 1
-//c.eq.s cc f0, f1 the flag cc is set to one if f0=f1                      0x11 0x10 ft fs cc 0 FC 2
-//c.le.s cc f0, f1 the flag cc is set to one if f0<=f1                     0x11 0x10 ft fs cc 0 FC 0xe
-//c.lt.s cc f0, f1 the flag cc is set to one if f0<f1                      0x11 0x10 ft fs cc 0 FC 0xc
-//c.ge.s cc f0, f1 the flag cc is set to one if f0>=f1
-//c.gt.s cc f0, f1 the flag cc is set to one if f0>f1
-//mov.s cc f0, f1 f0=f1                                                    0x11 0x10 0 fs fd 6
+//mfcl r0, f0 r0=f0                                                        0x0 0 rt rd 0 0x10
+//mtc1 f0,r0 f0=r0                                                         0x0 0 rt rd 0 0x11
+//add.s f0,f1, f2 f0=f1+f2                                                 0x0 fs ft fd 0 0x12
+//sub.s f0,f1, f2 f0=f1-f2                                                 0x0 fs ft fd 0 0x13
+//c.eq.s cc f0, f1 the flag cc is set to one if f0=f1                      0x0 fs ft cc 0 0x14
+//c.le.s cc f0, f1 the flag cc is set to one if f0<=f1                     0x0 fs ft cc 0 0x15
+//c.lt.s cc f0, f1 the flag cc is set to one if f0<f1                      0x0 fs ft cc 0 0x16
+//c.ge.s cc f0, f1 the flag cc is set to one if f0>=f1                     0x0 fs ft cc 0 0x17
+//c.gt.s cc f0, f1 the flag cc is set to one if f0>f1                      0x0 fs ft cc 0 0x18
+//mov.s cc f0, f1 f0=f1                                                    0x0 0 ft fd 0 0x19
 
