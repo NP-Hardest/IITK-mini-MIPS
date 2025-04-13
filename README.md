@@ -33,14 +33,14 @@ This repository contains a Verilog implementation of a MIPS based processor whic
 
 1. Run `processor.v` with its testbench `processor_tb.v`. The testbench is loaded with instruction encodings for **Bubble Sort**. You can try and run other algorithms (encoding each instruction can be painful for longer programs).
 
-### **Schematic**  
+## **Schematic**  
 
 A diagram showing the entire implementation is shown below.
 
 
   <img src="./schematic.png">
 
-### **Feedback**  
+## **Feedback**  
 
 Feel free to reach out or initiate a pull request if you find any issues!
 
