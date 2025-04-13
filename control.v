@@ -7,7 +7,7 @@ module control(opcode, func, type, ALUCtrl, rs, rt, rd, read_address_1, read_add
     input [4:0] rd; 
     input [4:0] shamt; 
     input [31:0] imm;
-    input fp;
+//     input fp;
     
     output reg [4:0] ALUCtrl;
     output reg [31:0] read_address_1, read_address_2, immediate_value;

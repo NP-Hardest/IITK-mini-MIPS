@@ -17,20 +17,45 @@ module tb_hahaha;
 
     initial begin
         rst <= 1;
-        inst_data_in <= {6'h0, 5'd0, 5'd14, 5'd21, 5'd0, 6'h19}; inst_addr <= 0;
-        #20 mem_addr <= 1 ; mem_data_in <= 1<<31; 
-        #20 mem_addr <= 2 ; mem_data_in <= 1<<31; 
-        #20 mem_addr <= 3 ; mem_data_in <= -7; 
-        #20 mem_addr <= 4 ; mem_data_in <= 6; 
-        #20 mem_addr <= 5 ; mem_data_in <= -5; 
-        #20 mem_addr <= 6 ; mem_data_in <= 4; 
-        #20 mem_addr <= 7 ; mem_data_in <= -3; 
-        #20 mem_addr <= 8 ; mem_data_in <= -2; 
-        #20 mem_addr <= 9 ; mem_data_in <= 1<<31; 
-        #20 mem_addr <= 10 ; mem_data_in <=  0; 
+
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd8, 16'd1};      inst_addr <= 0;
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd9, 16'd10};     inst_addr <= 1;
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd10, 16'd0};     inst_addr <= 2;
+        #20 inst_data_in <= {6'h8, 5'd9, 5'd11, -16'd1};            inst_addr <= 3;
+        #20 inst_data_in <= {6'h12, 5'd10, 5'd11, 16'd17};        inst_addr <= 4;
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd12, 16'd0};     inst_addr <= 5;
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd13, 16'd0};     inst_addr <= 6;
+        #20 inst_data_in <= {6'h0, 5'd9, 5'd10, 5'd14, 5'd0, 6'h22};       inst_addr <= 7;
+        #20 inst_data_in <= {6'h8, 5'd14, 5'd14, -16'd1};       inst_addr <= 8;
+        #20 inst_data_in <= {6'h12, 5'd13, 5'd14, 16'd9};    inst_addr <= 9;
+        #20 inst_data_in = {6'h0, 5'd8, 5'd13, 5'd15, 5'd0, 6'h20};        inst_addr <= 10;
+        #20 inst_data_in = {6'h23, 5'd15, 5'd25, 16'h0};       inst_addr <= 11;
+        #20 inst_data_in = {6'h23, 5'd15, 5'd23, 16'h1};       inst_addr <= 12;
+        #20 inst_data_in = {6'h14, 5'd25, 5'd23, 16'd3};     inst_addr <= 13;
+        #20 inst_data_in = {6'h2B, 5'd15, 5'd23, 16'd0};       inst_addr <= 14;
+        #20 inst_data_in = {6'h2B, 5'd15, 5'd25, 16'd1};       inst_addr <= 15;
+        #20 inst_data_in = {6'h8, 5'd0, 5'd12, 16'h1};     inst_addr <= 16;
+        #20 inst_data_in = {6'h8, 5'd13, 5'd13, 16'h1};        inst_addr <= 17;
+        #20 inst_data_in = {6'h2, 26'h7};        inst_addr <= 18;
+        #20 inst_data_in = {6'h4, 5'd12, 5'd0, 16'h2};       inst_addr <= 19;
+        #20 inst_data_in = {6'h8, 5'd10, 5'd10, 16'h1};        inst_addr <= 20;
+        #20 inst_data_in = {6'h2, 26'h3};                    inst_addr <= 21;
+        #20 inst_data_in = {6'h8, 5'd1, 5'd2, 16'h20};     inst_addr <= 22;
+
+        #20 mem_addr <= 1 ; mem_data_in <= 4; 
+        #20 mem_addr <= 2 ; mem_data_in <= 2; 
+        #20 mem_addr <= 3 ; mem_data_in <= 9; 
+        #20 mem_addr <= 4 ; mem_data_in <= 0; 
+        #20 mem_addr <= 5 ; mem_data_in <= 3; 
+        #20 mem_addr <= 6 ; mem_data_in <= 3; 
+        #20 mem_addr <= 7 ; mem_data_in <= 7; 
+        #20 mem_addr <= 8 ; mem_data_in <= 10; 
+        #20 mem_addr <= 9 ; mem_data_in <= 5; 
+        #20 mem_addr <= 10 ; mem_data_in <= 8; 
+
         #30;
         rst <= 0;
-        #70;
+      #8000;
 
         $display("time : %t",$time);
         $display("GPRs:");

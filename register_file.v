@@ -14,8 +14,8 @@ module register_file(clk, rst, write_enable, read_address_1, read_address_2, wri
     always @ (posedge clk) begin
         if(rst) begin
             GPR[0] <= 0;
-            GPR[15] <= 8; 
-            GPR[14] <= 8; 
+            // GPR[15] <= 8; 
+            // GPR[14] <= 8; 
             // GPR_FPR[29] <= 500;         //assume stack pointer starts at 500
             // GPR_FPR[31] <= 17;
             FPR[13] <= 32'hc1d9f1aa;
