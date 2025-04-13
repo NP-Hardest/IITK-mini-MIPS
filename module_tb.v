@@ -3,8 +3,10 @@
 module tb_hahaha;
     reg [31:0] instruction;
     reg clk, rst;
+    reg [31:0] inst_data_in, inst_addr;
+    reg [31:0] mem_data_in, mem_addr;
     
-    hahaha uut (clk, rst);
+    hahaha uut (clk, rst, inst_data_in, inst_addr, mem_data_in, mem_addr);
 
     
     initial begin
@@ -15,6 +17,17 @@ module tb_hahaha;
 
     initial begin
         rst <= 1;
+        inst_data_in <= {6'h0, 5'd0, 5'd14, 5'd21, 5'd0, 6'h19}; inst_addr <= 0;
+        #20 mem_addr <= 1 ; mem_data_in <= 1<<31; 
+        #20 mem_addr <= 2 ; mem_data_in <= 1<<31; 
+        #20 mem_addr <= 3 ; mem_data_in <= -7; 
+        #20 mem_addr <= 4 ; mem_data_in <= 6; 
+        #20 mem_addr <= 5 ; mem_data_in <= -5; 
+        #20 mem_addr <= 6 ; mem_data_in <= 4; 
+        #20 mem_addr <= 7 ; mem_data_in <= -3; 
+        #20 mem_addr <= 8 ; mem_data_in <= -2; 
+        #20 mem_addr <= 9 ; mem_data_in <= 1<<31; 
+        #20 mem_addr <= 10 ; mem_data_in <=  0; 
         #30;
         rst <= 0;
         #70;

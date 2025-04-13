@@ -20,8 +20,8 @@ module register_file(clk, rst, write_enable, read_address_1, read_address_2, wri
             // GPR_FPR[31] <= 17;
             FPR[13] <= 32'hc1d9f1aa;
             FPR[14] <= 32'h427d5d2f;
-            // FPR[0] <= 32'h00000000;
         end
+        
         else begin
             if(write_enable) begin
                 if(mul == 1) begin

@@ -6,12 +6,23 @@
 `include "memory.v"
 `include "pcHandle.v"
 
-module hahaha(clk, rst);
+module hahaha(clk, rst, inst_data_in, inst_write_addr, mem_data_in, mem_write_addr);
 
     input clk, rst;
+    input [31:0] inst_data_in, inst_write_addr;
+    input [31:0] mem_data_in, mem_write_addr;
 
-    memory data_memory(clk, mem_write, ALU_out, ALU_out, read_data_2, data_memory_out);
-    inst_memory inst_memory(clk, inst_write_enable, PC, inst_write_address, inst_data_in, inst_data_out);
+    wire [31:0] data_mem_write, data_mem_addr;
+    wire data_mem_we;
+
+    mux data_memory_write(read_data_2, mem_data_in, {1'b0, rst}, data_mem_write);
+    mux data_memory_addr(ALU_out, mem_write_addr, {1'b0, rst}, data_mem_addr);
+    mux_2 data_memory_we(mem_write, rst, rst, data_mem_we);
+
+    //memory(clk, write_enable, read_address, write_address, data_in, data_out);
+
+    memory data_memory(clk, data_mem_we, ALU_out, data_mem_addr, data_mem_write, data_memory_out);
+    inst_memory inst_memory(clk, rst, PC, inst_write_addr, inst_data_in, inst_data_out);
 
     reg [31:0] PC;
     wire [31:0] instruction = inst_data_out;
@@ -58,10 +69,10 @@ module hahaha(clk, rst);
 
     mux uut6(ALU_out, data_memory_out , {1'b0, mem_to_reg}, reg_file_write_in_1);
 
-    wire inst_write_enable;
+    // wire inst_write_enable;
     wire [31:0] inst_read_address, inst_write_address, inst_data_in, inst_data_out;
 
-    assign inst_write_enable = 0;
+    // assign inst_write_enable = 0;
 
     wire [31:0] store;
 

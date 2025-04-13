@@ -8,7 +8,7 @@ module mux(a, b, sel, out);
 endmodule
 
 module mux_3(a, b, c, sel, out);
-    input [31:0] a,b , c;
+    input [31:0] a, b, c;
     input [1:0] sel;
     output reg [31:0] out;
 
