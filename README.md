@@ -1,6 +1,6 @@
 # **MiniMIPS-X**  
 
-This repository contains a Verilog implementation of a MIPS based processor which supports a subset of instructions based on the MIPS ISA, with custom instruction encodings. 
+This repository contains a Verilog implementation of a MIPS based processor which supports a subset of instructions based on the MIPS ISA, with custom instruction encodings. This project was done as a course project for the course CS220: Computer Organisation, under Prof. Debapriya Roy, IIT Kanpur.
 
 ## **Components and Modules**  
 
@@ -38,9 +38,10 @@ This repository contains a Verilog implementation of a MIPS based processor whic
 A diagram showing the entire implementation is shown below.
 
      <p align="center">
-       <img src="./schematic.png">
-    </p>
-
+  <img src="./schematic.png">
+  <!-- <img src="./images/Key.png">
+  <img src="./images/Time_signature.png"> -->
+</p>
 ### **Feedback**  
 
 Feel free to reach out or initiate a pull request if you find any issues!
