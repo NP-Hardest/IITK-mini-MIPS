@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
 
-module tb_hahaha;
+module tb_processor;
     reg [31:0] instruction;
     reg clk, rst;
     reg [31:0] inst_data_in, inst_addr;
     reg [31:0] mem_data_in, mem_addr;
     
-    hahaha uut (clk, rst, inst_data_in, inst_addr, mem_data_in, mem_addr);
+    processor uut (clk, rst, inst_data_in, inst_addr, mem_data_in, mem_addr);
 
     
     initial begin
