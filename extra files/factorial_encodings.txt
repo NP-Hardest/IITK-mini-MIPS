@@ -1,0 +1,28 @@
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd4, 16'h6};              inst_addr <= 0;
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd16, 16'h1};             inst_addr <= 1;
+        #20 inst_data_in <= {6'h3, 26'h5};                          inst_addr <= 2;
+        #20 inst_data_in <= {6'h8, 5'd2, 5'd4, 16'h0};              inst_addr <= 3;
+        #20 inst_data_in <= {6'h3, 26'd22};                         inst_addr <= 4;
+
+        #20 inst_data_in <= {6'h8, 5'd29, 5'd29, -16'h2};           inst_addr <= 5;
+        #20 inst_data_in <= {6'h2B, 5'd29, 5'd31, 16'h1};           inst_addr <= 6;
+        #20 inst_data_in <= {6'h2B, 5'd29, 5'd4, 16'h0};            inst_addr <= 7;
+        #20 inst_data_in <= {6'h8, 5'd0, 5'd16, 16'h1};             inst_addr <= 8;
+
+        #20 inst_data_in <= {6'h14, 5'd4, 5'd16, 16'h8};            inst_addr <= 9;
+
+        #20 inst_data_in <= {6'h8, 5'd4, 5'd4, -16'h1};             inst_addr <= 10;
+        #20 inst_data_in <= {6'h3, 26'h5};                          inst_addr <= 11;
+        #20 inst_data_in = {6'h23, 5'd29, 5'd4, 16'h0};             inst_addr <= 12;
+        #20 inst_data_in = {6'h0, 5'd2, 5'd4, 5'd0, 5'd0, 6'h28};   inst_addr <= 13;
+        #20 inst_data_in = {6'h8, 5'd27, 5'd2, 16'h0};              inst_addr <= 14;
+
+        #20 inst_data_in = {6'h23, 5'd29, 5'd31, 16'h1};            inst_addr <= 15;
+        #20 inst_data_in = {6'h8, 5'd29, 5'd29, 16'h2};             inst_addr <= 16;
+        #20 inst_data_in = {6'h1, 5'd31, 21'd0};                    inst_addr <= 17;
+
+        #20 inst_data_in =  {6'h8, 5'd0, 5'd2, 16'h1};              inst_addr <= 18;
+        #20 inst_data_in = {6'h23, 5'd29, 5'd31, 16'h1};            inst_addr <= 19;
+        #20 inst_data_in = {6'h8, 5'd29, 5'd29, 16'h2};             inst_addr <= 20;
+        #20 inst_data_in = {6'h1, 5'd31, 21'd0};                    inst_addr <= 21;
+        #20 inst_data_in = {6'h8, 5'd0, 5'd12, 16'h2};              inst_addr <= 22;

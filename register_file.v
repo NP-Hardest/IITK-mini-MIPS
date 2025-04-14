@@ -16,10 +16,11 @@ module register_file(clk, rst, write_enable, read_address_1, read_address_2, wri
             GPR[0] <= 0;
             // GPR[15] <= 8; 
             // GPR[14] <= 8; 
-            // GPR_FPR[29] <= 500;         //assume stack pointer starts at 500
+            GPR[29] <= 200;         //assume stack pointer starts at 500
             // GPR_FPR[31] <= 17;
             FPR[13] <= 32'hc1d9f1aa;
             FPR[14] <= 32'h427d5d2f;
+
         end
         
         else begin
@@ -80,8 +81,8 @@ endmodule
     // 38 -> f6          53 -> f21    
     // 39 -> f7          54 -> f22
     // 40 -> f8          55 -> f23
-    // 41 -> f9          56 -> f24    ///IMP
-    // 42 -> f10         57 -> f25    /// IMP
+    // 41 -> f9          56 -> f24  
+    // 42 -> f10         57 -> f25   
     // 43 -> f11         58 -> f26
     // 44 -> f12         59 -> f27
     // 45 -> f13         60 -> f28
