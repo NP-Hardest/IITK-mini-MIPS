@@ -1,136 +1,168 @@
 .data
-input:          .word 5, 3, 8, 2, 9, 1, 7, 4, 0, 6   # Example input array
-length:         .word 10                              # Number of elements
-buckets:        .space 4040                           # 10 buckets * (4 + 100*4) bytes
+input:          .word 19, 9, 6, 2, 3, 3, 19, 10, 5, 8   # Input array
+length:         .word 10                              # Array size
+buckets:        .space 1040                           # 10 buckets
+space:          .asciiz " "                           # Space separator
+newline:        .asciiz "\n"                          # Newline
 
 .text
 main:
-    # Initialize bucket counts to zero
-    la $t0, buckets               # Load buckets address
-    li $t1, 0                     # Initialize counter
-    li $t2, 10                    # Number of buckets
+    # Initialize bucket counts
+    la $t0, buckets
+    li $t1, 0
+    li $t2, 10
 init_loop:
-    sw $zero, 0($t0)              # Set bucket count to 0
-    addi $t0, $t0, 10            # Move to next bucket
-    addi $t1, $t1, 1              # Increment counter
-    blt $t1, $t2, init_loop       # Loop until all buckets initialized
+    sw $zero, 0($t0)
+    addi $t0, $t0, 104
+    addi $t1, $t1, 1
+    blt $t1, $t2, init_loop
 
-    # Distribute elements into buckets
-    la $s0, input                 # Load input array address
-    lw $s1, length                # Load array length
-    li $s2, 0                     # Initialize counter
+    # Distribute elements using subtraction-based bucket index
+    la $s0, input
+    lw $s1, length
+    li $s2, 0
+
 distribute_loop:
-    bge $s2, $s1, end_distribute  # Exit loop when all elements processed
-    lw $a0, 0($s0)                # Load current element
-    li $t0, 10                    
-    div $a0, $t0                  # Divide element by 10 (bucket index in LO)
-    mflo $t1                      # Get bucket index
+    bge $s2, $s1, end_distribute
+    lw $a0, 0($s0)                # Load element
+    
+    # Calculate bucket index without division
+    li $t1, 0                     # Bucket index counter
+    move $t8, $a0                 # Element copy
+    li $t9, 10                    # Comparison value
+bucket_calc:
+    blt $t8, $t9, end_bucket_calc
+    addi $t1, $t1, 1
+    addi $t8, $t8, -10
+    j bucket_calc
+end_bucket_calc:
 
-    la $t2, buckets               # Load base bucket address
-    mul $t3, $t1, 404             # Calculate bucket offset
-    add $t2, $t2, $t3             # Get current bucket address
-    lw $t4, 0($t2)                # Load bucket count
-    li $t5, 100                   # Max elements per bucket
-    bge $t4, $t5, skip_element    # Skip if bucket is full
+    # Store element in bucket
+    la $t2, buckets
+    mul $t3, $t1, 104
+    add $t2, $t2, $t3
+    lw $t4, 0($t2)
+    li $t5, 20
+    bge $t4, $t5, skip_element
 
-    addi $t6, $t2, 4              # Get element storage address
-    sll $t7, $t4, 2               # Calculate element offset
-    add $t6, $t6, $t7             # Get target address
-    sw $a0, 0($t6)                # Store element in bucket
-    addi $t4, $t4, 1              # Increment bucket count
-    sw $t4, 0($t2)                # Update bucket count
+    addi $t6, $t2, 4
+    sll $t7, $t4, 2
+    add $t6, $t6, $t7
+    sw $a0, 0($t6)
+    addi $t4, $t4, 1
+    sw $t4, 0($t2)
 
 skip_element:
-    addi $s0, $s0, 4             # Move to next element
-    addi $s2, $s2, 1             # Increment counter
+    addi $s0, $s0, 4
+    addi $s2, $s2, 1
     j distribute_loop
 
 end_distribute:
+    # Sort buckets (same as before)
+    la $s6, buckets
+    li $t8, 0
+    li $t9, 10
 
-    # Sort each bucket using insertion sort
-    la $t0, buckets               # Load buckets address
-    li $t1, 0                     # Initialize counter
-    li $t2, 10                    # Number of buckets
 sort_loop:
-    bge $t1, $t2, end_sort        # Exit when all buckets sorted
-    lw $t3, 0($t0)                # Load bucket count
-    ble $t3, 1, next_bucket       # Skip sorting if ≤1 element
+    bge $t8, $t9, end_sort
+    lw $t3, 0($s6)
+    ble $t3, 1, next_bucket
 
-    addi $a0, $t0, 4              # Set array address argument
-    move $a1, $t3                 # Set array size argument
-    jal insertion_sort            # Sort the bucket
+    addi $a0, $s6, 4
+    move $a1, $t3
+    jal insertion_sort
 
 next_bucket:
-    addi $t0, $t0, 404           # Move to next bucket
-    addi $t1, $t1, 1             # Increment counter
+    addi $s6, $s6, 104
+    addi $t8, $t8, 1
     j sort_loop
 
 end_sort:
-
-    # Concatenate buckets back into original array
-    la $s3, input                 # Load input array address
-    li $s4, 0                     # Initialize bucket counter
-    li $s5, 10                    # Total buckets
+    # Concatenate buckets (same as before)
+    la $s3, input
+    li $s4, 0
+    li $s5, 10
 concat_loop:
-    bge $s4, $s5, end_concat      # Exit when all buckets processed
-    la $t0, buckets               # Load base bucket address
-    mul $t1, $s4, 404             # Calculate bucket offset
-    add $t0, $t0, $t1             # Get current bucket address
-    lw $t2, 0($t0)                # Load bucket count
-    beqz $t2, next_concat         # Skip empty buckets
+    bge $s4, $s5, end_concat
+    la $t0, buckets
+    mul $t1, $s4, 104
+    add $t0, $t0, $t1
+    lw $t2, 0($t0)
+    beqz $t2, next_concat
 
-    addi $t0, $t0, 4              # Get elements address
-    li $t3, 0                     # Initialize element counter
+    addi $t0, $t0, 4
+    li $t3, 0
 copy_loop:
-    bge $t3, $t2, next_concat     # Exit when all elements copied
-    sll $t4, $t3, 2               # Calculate element offset
-    add $t4, $t0, $t4             # Get element address
-    lw $t5, 0($t4)               # Load element
-    sw $t5, 0($s3)               # Store in original array
-    addi $s3, $s3, 4             # Move to next position
-    addi $t3, $t3, 1             # Increment element counter
+    bge $t3, $t2, next_concat
+    sll $t4, $t3, 2
+    add $t4, $t0, $t4
+    lw $t5, 0($t4)
+    sw $t5, 0($s3)
+    addi $s3, $s3, 4
+    addi $t3, $t3, 1
     j copy_loop
 
 next_concat:
-    addi $s4, $s4, 1             # Move to next bucket
+    addi $s4, $s4, 1
     j concat_loop
 
 end_concat:
-    # Exit program
+    # Print sorted array
+    la $t0, input
+    lw $t1, length
+    li $t2, 0
+    
+    li $v0, 4
+    la $a0, newline
+    syscall
+
+print_loop:
+    bge $t2, $t1, exit
+    lw $a0, 0($t0)
+    li $v0, 1
+    syscall
+    
+    li $v0, 4
+    la $a0, space
+    syscall
+    
+    addi $t0, $t0, 4
+    addi $t2, $t2, 1
+    j print_loop
+
+exit:
     li $v0, 10
     syscall
 
-
-
-
+# Insertion Sort Subroutine (unchanged)
 insertion_sort:
-    li $t0, 1                     # i = 1
+    li $t0, 1
 insertion_loop:
-    bge $t0, $a1, end_insertion   # Exit when array sorted
-    sll $t1, $t0, 2              # Calculate element offset
-    add $t1, $a0, $t1            # Get current element address
-    lw $t2, 0($t1)               # Load current element (key)
-    addi $t3, $t0, -1            # j = i - 1
+    bge $t0, $a1, end_insertion
+    sll $t1, $t0, 2
+    add $t1, $a0, $t1
+    lw $t2, 0($t1)
+    addi $t3, $t0, -1
 
 inner_loop:
-    blt $t3, 0, end_inner        # Exit when position found
-    sll $t4, $t3, 2              # Calculate comparison element offset
-    add $t4, $a0, $t4            # Get comparison element address
-    lw $t5, 0($t4)               # Load comparison element
-    ble $t5, $t2, end_inner      # Exit if element <= key
+    blt $t3, 0, end_inner
+    sll $t4, $t3, 2
+    add $t4, $a0, $t4
+    lw $t5, 0($t4)
+    ble $t5, $t2, end_inner
 
-    addi $t6, $t4, 4             # Get next position address
-    sw $t5, 0($t6)               # Move element forward
-    addi $t3, $t3, -1            # Decrement j
+    addi $t6, $t4, 4
+    sw $t5, 0($t6)
+    addi $t3, $t3, -1
     j inner_loop
 
 end_inner:
-    addi $t3, $t3, 1             # Correct insertion position
-    sll $t4, $t3, 2              # Calculate insertion offset
-    add $t4, $a0, $t4            # Get insertion address
-    sw $t2, 0($t4)               # Store key in correct position
-    addi $t0, $t0, 1             # Increment i
+    addi $t3, $t3, 1
+    sll $t4, $t3, 2
+    add $t4, $a0, $t4
+    sw $t2, 0($t4)
+    addi $t0, $t0, 1
     j insertion_loop
 
 end_insertion:
-    jr $ra                       # Return to caller
+    jr $ra

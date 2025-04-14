@@ -31,8 +31,8 @@ This repository contains a Verilog implementation of a MIPS based processor whic
 ### **Simulation & Testing**  
 
 
-- Run `processor.v` with its testbench `processor_tb.v`. The testbench is loaded with instruction encodings for **Bubble Sort**. You can try and run other algorithms (encoding each instruction can be painful for longer programs).
-- Encodings for instructions to compute factorial are also provided in `/extra files`.
+- Run `top_module.v` with its testbench `top_tb.v`. The testbench is loaded with instruction encodings for **Bucket Sort**. You can try and run other algorithms (encoding each instruction can be painful for longer programs).
+- Encodings for other programs such as Bubble sort or a simple factorial program are also provided in `/extra files`.
 
 
 ## **Schematic**  

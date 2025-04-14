@@ -6,7 +6,7 @@
 `include "memory.v"
 `include "pcHandle.v"
 
-module processor(clk, rst, inst_data_in, inst_write_addr, mem_data_in, mem_write_addr);
+module top_module(clk, rst, inst_data_in, inst_write_addr, mem_data_in, mem_write_addr);
 
     input clk, rst;
     input [31:0] inst_data_in, inst_write_addr;
