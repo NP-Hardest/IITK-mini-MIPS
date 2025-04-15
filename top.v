@@ -6,23 +6,33 @@
 `include "memory.v"
 `include "pcHandle.v"
 
-module top_module(clk, rst, inst_data_in, inst_write_addr, mem_data_in, mem_write_addr);
+module processor_top(clk, rst, inst_data_in, inst_write_addr, mem_data_in, mem_write_addr, processor_out, done);
 
     input clk, rst;
     input [31:0] inst_data_in, inst_write_addr;
     input [31:0] mem_data_in, mem_write_addr;
+    output [31:0] processor_out;
+    output reg done;
+    
+    
+    assign processor_out = data_memory_out;
 
-    wire [31:0] data_mem_write, data_mem_addr;
+    wire [31:0] data_mem_write, data_mem_addr, data_mem_read_addr;
     wire data_mem_we;
 
     mux data_memory_write(read_data_2, mem_data_in, {1'b0, rst}, data_mem_write);
     mux data_memory_addr(ALU_out, mem_write_addr, {1'b0, rst}, data_mem_addr);
+    
+    mux data_memory_read_addr(ALU_out, mem_write_addr, {1'b0, done}, data_mem_read_addr);
     mux_2 data_memory_we(mem_write, rst, rst, data_mem_we);
 
     //memory(clk, write_enable, read_address, write_address, data_in, data_out);
 
-    memory data_memory(clk, data_mem_we, ALU_out, data_mem_addr, data_mem_write, data_memory_out);
-    inst_memory inst_memory(clk, rst, PC, inst_write_addr, inst_data_in, inst_data_out);
+   memory data_memory(clk, data_mem_we, data_mem_read_addr, data_mem_addr, data_mem_write, data_memory_out);
+   memory inst_memory(clk, rst, PC, inst_write_addr, inst_data_in, inst_data_out);
+    
+    // memory_wrapper data_memory(clk, data_mem_we, data_mem_read_addr, data_mem_addr[8:0], data_mem_write, data_memory_out);
+    // memory_wrapper inst_memory(clk, rst, PC, inst_write_addr[8:0], inst_data_in, inst_data_out);
 
     reg [31:0] PC;
     wire [31:0] instruction = inst_data_out;
@@ -80,9 +90,15 @@ module top_module(clk, rst, inst_data_in, inst_write_addr, mem_data_in, mem_writ
 
 
     always @(posedge clk) begin
-        $display("PC : %d, inst : %d", PC, instruction);
-        if(rst) PC <= 0;
-    
+        if(rst) begin
+            PC <= 0;
+            done <= 0;
+        end
+        else if (done) PC <= PC;
+        else if(PC == 89) begin
+            done <= 1;  
+            PC <= PC;
+        end    
         else PC <= store;
     end
 
